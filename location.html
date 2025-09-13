@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apartments - Rentals</title>
+    <link rel="stylesheet" href="location.css" />
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="logo">🏡ATA</div>
+      <nav>
+        <div class="nav__header">
+          <div class="nav__logo">
+            <a href="#">ATA</a>
+          </div>
+          <div class="nav__menu__btn" id="menu-btn">
+            <i class="ri-menu-3-line"></i>
+          </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="properties.html">Properties</a></li>
+          <li><a href="location.html" class="active">Locations</a></li>
+          <li><a href="index.html#kraj">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Container -->
+    <main class="container">
+      <!-- Map -->
+      <div id="map"></div>
+
+      <!-- Properties List -->
+      <div class="properties">
+        <h2>Available Apartments</h2>
+
+        <div class="card" data-id="1">
+          <img src="imgs/3.jpg" alt="Skopje Center 90m2" />
+          <div class="info">
+            <p class="price">€650/month</p>
+            <h3>Apartment - 90m² - Skopje Center</h3>
+            <p>Spacious apartment in the heart of Skopje</p>
+          </div>
+        </div>
+
+        <div class="card" data-id="2" id="dva">
+          <img src="imgs/pic21.jpg" alt="Skopje Center 60m2" />
+          <div class="info">
+            <p class="price">€500/month</p>
+            <h3>Apartment - 60m² - Skopje Center</h3>
+            <p>Cozy and modern apartment near Macedonia Square</p>
+          </div>
+        </div>
+
+        <div class="card" data-id="3">
+          <img src="imgs/4.jpg" alt="Kisela Voda 70m2" />
+          <div class="info">
+            <p class="price">€450/month</p>
+            <h3>Apartment - 70m² - Kisela Voda</h3>
+            <p>Modern family apartment in a quiet neighborhood</p>
+          </div>
+        </div>
+
+        <div class="card" data-id="4" id="cetiri">
+          <img src="imgs/pic16.jpg" alt="Ohrid 80m2" />
+          <div class="info">
+            <p class="price">€600/month</p>
+            <h3>Apartment - 80m² - Ohrid</h3>
+            <p>Lake-view apartment close to the center</p>
+          </div>
+        </div>
+
+        <div class="card" data-id="5" id="pet">
+          <img src="imgs/pic31.jpg" alt="Gjorce Petrov 75m2" />
+          <div class="info">
+            <p class="price">€400/month</p>
+            <h3>Apartment - 75m² - Gjorce Petrov</h3>
+            <p>Affordable apartment in a peaceful area</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="location.js"></script>
+  </body>
+</html>

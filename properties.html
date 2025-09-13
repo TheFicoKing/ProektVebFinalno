@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Renovations</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #c49c74;
+        --text-dark: #333333;
+        --text-light: #767268;
+        --extra-light: #f0efef;
+        --white: #ffffff;
+        --max-width: 1200px;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f7fa;
+        color: #222;
+        line-height: 1.6;
+      }
+
+      a {
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      ul {
+        list-style: none;
+      }
+      .navbar {
+        position: fixed;
+        isolation: isolate;
+        width: 100%;
+        z-index: 2000;
+      }
+      .nav__header {
+        padding: 1rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--primary-color);
+        height: 30px;
+      }
+      .navbar .logo {
+        display: none;
+      }
+      .nav__logo a {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--white);
+      }
+      .nav__menu__btn {
+        font-size: 1.5rem;
+        color: var(--white);
+        cursor: pointer;
+        margin-right: 35px;
+      }
+      .navbar nav ul {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem;
+        background-color: var(--primary-color);
+        transition: transform 0.5s;
+        z-index: -1;
+        margin-right: -150px;
+      }
+      .navbar nav ul.open {
+        transform: translateY(100%);
+      }
+      .navbar nav ul li a {
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--white);
+        white-space: nowrap;
+      }
+
+      .container {
+        max-width: 1500px;
+        margin: auto;
+        padding: 50px 20px;
+      }
+
+      .section__prva,
+      .section__vtora {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        align-items: center;
+        gap: 50px;
+        margin-bottom: 80px;
+        margin-top: 50px;
+      }
+
+      .section__vtora {
+        grid-template-columns: 1fr 2fr;
+      }
+
+      /* Carousel Styles */
+      .carousel {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+      }
+
+      .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .carousel img {
+        width: 100%;
+        flex-shrink: 0;
+        border-radius: 15px;
+      }
+
+      .carousel button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 50%;
+      }
+
+      .carousel .prev {
+        left: 10px;
+      }
+      .carousel .next {
+        right: 10px;
+      }
+
+      .text {
+        padding: 10px;
+      }
+
+      .text h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+
+      .text p {
+        font-size: 1.1rem;
+        color: #555;
+        margin-bottom: 25px;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .features div {
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        color: #333;
+      }
+
+      .features div::before {
+        content: "✔";
+        color: #0077ff;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .location-pin {
+        position: relative;
+        display: inline-block;
+        margin-top: 20px;
+        font-size: 1.8rem;
+        margin-left: 170px;
+      }
+
+      .location-pin a {
+        color: rgb(197, 152, 67); /* златно-кафеава боја */
+        text-decoration: none;
+        position: relative;
+      }
+
+      .location-pin a:hover {
+        color: #d89126;
+      }
+
+      /* Tooltip стил */
+      .tooltip {
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        left: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        transition: all 0.3s ease;
+      }
+
+      /* Поява при hover */
+      .location-pin a:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+        left: 50px;
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        .section__prva,
+        .section__vtora {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .features {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (width > 786px) {
+        .navbar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px 40px;
+          background: white;
+          position: fixed;
+          width: 100%;
+          top: 0;
+          z-index: 1000;
+          border-bottom: 1px solid #ddd;
+          height: 30px;
+          margin-top: 0;
+        }
+        .nav__header {
+          display: none;
+        }
+
+        .navbar .logo {
+          display: block;
+          font-size: 1.55rem;
+          color: rgb(197, 152, 67);
+          margin-right: 60px;
+          font-weight: 700;
+        }
+
+        .navbar nav ul {
+          position: relative;
+          display: flex;
+          list-style: none;
+          gap: 50px;
+          margin-right: 675px;
+          font-weight: 700;
+          font-size: 20px;
+          background-color: transparent;
+          flex-direction: row;
+          justify-content: flex-start;
+          z-index: auto;
+        }
+
+        .navbar nav ul li a {
+          font-weight: 700;
+          text-decoration: none;
+          color: #333;
+          transition: 0.3s;
+          position: relative;
+        }
+
+        .navbar nav ul li a:hover {
+          color: #d89126;
+        }
+        .navbar nav ul li a::after {
+          content: "";
+          height: 3px;
+          width: 0;
+          background-color: #d89126;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -3px;
+          transition: 0.5s;
+        }
+        .navbar nav ul li a:hover::after {
+          width: 100%;
+        }
+
+        .navbar nav ul li a.active {
+          color: #d89126;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="logo">🏡ATA</div>
+      <nav>
+        <div class="nav__header">
+          <div class="nav__logo">
+            <a href="#">ATA</a>
+          </div>
+          <div class="nav__menu__btn" id="menu-btn">
+            <i class="ri-menu-3-line"></i>
+          </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="properties.html" class="active">Properties</a></li>
+          <li><a href="location.html">Locations</a></li>
+          <li><a href="index.html#kraj">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container">
+      <!-- First Section -->
+      <div class="section__prva">
+        <div class="carousel">
+          <div class="carousel-track">
+            <img src="imgs/3.jpg" alt="Modern House" />
+            <img src="imgs/l4.webp" alt="Living Room" />
+            <img
+              src="imgs/e269d874-1d5c-4740-9741-835c1d041189.jpg"
+              alt="Kitchen"
+            />
+            <img src="imgs/pic7.png" alt="Bedroom" />
+          </div>
+          <button class="prev">&#10094;</button>
+          <button class="next">&#10095;</button>
+        </div>
+
+        <div class="text">
+          <h2>Apartment in Centar- <br />90 m²</h2>
+          <p>
+            A spacious and elegant 90 m² apartment located in the very heart of
+            the city. This residence offers a bright open-plan living and dining
+            area, a modern fully equipped kitchen, and generously sized
+            bedrooms. With large windows allowing natural light throughout the
+            day and premium finishes, it provides both comfort and
+            sophistication. Perfectly positioned within walking distance to
+            cultural landmarks, fine dining, and shopping.
+          </p>
+          <p>Price: 300.000$</p>
+          <div class="features">
+            <div>Smart Home</div>
+            <div>Beautiful Scene Around</div>
+            <div>Exceptional Lifestyle</div>
+            <div>Complete 24/7 Security</div>
+          </div>
+          <div class="location-pin">
+            <a href="location.html#1">
+              <i class="fas fa-map-marker-alt"></i>
+              <span class="tooltip">Location</span>
+            </a>
+          </div>
+          <div id="vtor"></div>
+        </div>
+      </div>
+
+      <!-- Second Section -->
+
+      <div class="section__vtora">
+        <div class="text">
+          <h2>Apartment in Kisela Voda – 70 m²</h2>
+          <p>
+            A serene 70 m² apartment located in one of the city’s most peaceful
+            neighborhoods. Offering a harmonious blend of comfort and
+            functionality, it includes a spacious living room, a fully equipped
+            kitchen, and cozy bedrooms. Surrounded by greenery and parks, this
+            property is ideal for families who value tranquility while staying
+            close to the city core.
+          </p>
+          <p>Price: 200.000$</p>
+          <div class="features">
+            <div>Family-Friendly Area</div>
+            <div>Bright and Airy Spaces</div>
+            <div>Balcony with View</div>
+            <div>Safe Neighborhood</div>
+          </div>
+          <div class="location-pin">
+            <a href="location.html#2">
+              <i class="fas fa-map-marker-alt"></i>
+              <span class="tooltip">Location</span>
+            </a>
+          </div>
+          <div id="tret"></div>
+        </div>
+
+        <div class="carousel">
+          <div class="carousel-track">
+            <img src="imgs/4.jpg" alt="Historic House" />
+            <img src="imgs/pic3.webp" alt="Dining Room" />
+            <img src="imgs/photo8.jpg" alt="Bedroom" />
+            <img
+              src="imgs/f5a224dd-9a6d-4a8c-b75d-ad41092ffc1c.jpg"
+              alt="Kitchen"
+            />
+          </div>
+
+          <button class="prev">&#10094;</button>
+          <button class="next">&#10095;</button>
+        </div>
+      </div>
+
+      <!--Third section-->
+      <div class="section__prva">
+        <div class="carousel">
+          <div class="carousel-track">
+            <img src="imgs/pic15.jpg" alt="Modern House" />
+            <img src="imgs/pic16.jpg" alt="Living Room" />
+            <img src="imgs/pic17.jpg" alt="Kitchen" />
+            <img src="imgs/pic18.jpg" alt="Kitchen" />
+          </div>
+          <button class="prev">&#10094;</button>
+          <button class="next">&#10095;</button>
+        </div>
+
+        <div class="text">
+          <h2>Apartment in Ohrid– <br />80 m²</h2>
+          <p>
+            A charming 80 m² apartment situated in the picturesque town of
+            Ohrid, just minutes from the lake. This home features an inviting
+            living space, modern kitchen, and well-appointed bedrooms, making it
+            perfect for both permanent living and vacation stays. The apartment
+            offers breathtaking views of nature and easy access to Ohrid’s
+            historic sites and waterfront.
+          </p>
+          <p>Price: 250.000$</p>
+          <div class="features">
+            <div>Lake Nearby</div>
+            <div>Scenic Views</div>
+            <div>Relaxed Lifestyle</div>
+            <div>Investment Potential</div>
+          </div>
+          <div class="location-pin">
+            <a href="location.html#3">
+              <i class="fas fa-map-marker-alt"></i>
+              <span class="tooltip">Location</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!--Forth section-->
+      <div class="section__vtora">
+        <div class="text">
+          <h2>Apartment in Centar– <br />60 m²</h2>
+          <p>
+            A stylish and cozy 60 m² apartment designed for modern city living.
+            Featuring a thoughtfully planned interior with an open living room,
+            a contemporary kitchen, and a comfortable bedroom, this residence is
+            ideal for young professionals or couples. Situated in the vibrant
+            city center, it offers unmatched access to restaurants, cafés, and
+            cultural attractions.
+          </p>
+          <p>Price: 180.000$</p>
+          <div class="features">
+            <div>Modern Design</div>
+            <div>Central Location</div>
+            <div>Efficient Layout</div>
+            <div>Secure Building</div>
+          </div>
+          <div class="location-pin">
+            <a href="location.html#4">
+              <i class="fas fa-map-marker-alt"></i>
+              <span class="tooltip">Location</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel">
+          <div class="carousel-track">
+            <img src="imgs/pic21.jpg" alt="Historic House" />
+            <img src="imgs/pic24.jpg" alt="Dining Room" />
+            <img src="imgs/pic22.jpg" alt="Bedroom" />
+            <img src="imgs/pic23.jpg" alt="Kitchen" />
+          </div>
+          <button class="prev">&#10094;</button>
+          <button class="next">&#10095;</button>
+        </div>
+      </div>
+
+      <!--Fifth section-->
+      <div class="section__prva">
+        <div class="carousel">
+          <div class="carousel-track">
+            <img src="imgs/pic31.jpg" alt="Modern House" />
+            <img src="imgs/pic30.jpg" alt="Living Room" />
+            <img src="imgs/pic34.webp" alt="Kitchen" />
+            <img src="imgs/pic35.jpg" alt="Living Room" />
+          </div>
+          <button class="prev">&#10094;</button>
+          <button class="next">&#10095;</button>
+        </div>
+
+        <div class="text">
+          <h2>Apartment in Gjorce Petrov – 75 m²</h2>
+          <p>
+            A contemporary 75 m² apartment located in a well-connected
+            residential area of Gjorce Petrov. With a modern open-plan design,
+            spacious bedrooms, and high-quality finishes, it is perfect for
+            families and professionals alike. Residents will appreciate the
+            convenient access to schools, markets, and public transport while
+            enjoying the comfort of a quiet community.
+          </p>
+          <p>Price: 120.000$</p>
+          <div class="features">
+            <div>Modern Comfort</div>
+            <div>Excellent Connectivity</div>
+            <div>Spacious Layout</div>
+            <div>Secure Living</div>
+          </div>
+          <div class="location-pin">
+            <a href="location.html#5">
+              <i class="fas fa-map-marker-alt"></i>
+              <span class="tooltip">Location</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script>
+      const scrollRevealOption = {
+        distance: "50px",
+        origin: "left",
+        duration: 1000,
+      };
+      const scrollRevealOptionDva = {
+        distance: "50px",
+        origin: "bottom",
+        duration: 1000,
+      };
+
+      ScrollReveal().reveal(".text", {
+        ...scrollRevealOption,
+        delay: 750,
+      });
+      ScrollReveal().reveal(".carousel", {
+        ...scrollRevealOptionDva,
+      });
+
+      document.querySelectorAll(".carousel").forEach((carousel) => {
+        const track = carousel.querySelector(".carousel-track");
+        const slides = Array.from(track.children);
+        const prevButton = carousel.querySelector(".prev");
+        const nextButton = carousel.querySelector(".next");
+
+        let currentIndex = 0;
+
+        function updateSlide() {
+          track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        nextButton.addEventListener("click", () => {
+          currentIndex = (currentIndex + 1) % slides.length;
+          updateSlide();
+        });
+
+        prevButton.addEventListener("click", () => {
+          currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+          updateSlide();
+        });
+      });
+
+      const menuBtn = document.getElementById("menu-btn");
+      const navLinks = document.getElementById("nav-links");
+      const menyBtnIcon = menuBtn.querySelector("i");
+
+      menuBtn.addEventListener("click", () => {
+        navLinks.classList.toggle("open");
+
+        const isOpen = navLinks.classList.contains("open");
+        menyBtnIcon.setAttribute(
+          "class",
+          isOpen ? "ri-close-line" : "ri-menu-3-line"
+        );
+      });
+
+      navLinks.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menyBtnIcon.setAttribute("class", "ri-menu-3-line");
+      });
+    </script>
+  </body>
+</html>
